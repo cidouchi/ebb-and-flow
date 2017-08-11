@@ -127,15 +127,14 @@ function onPlayerReady(event) {
 }
 
 var vid_queue = []
-var vid_index = 0;
 
 // when video ends
 function onPlayerStateChange(event) {        
     if (event.data === YT.PlayerState.ENDED) {     
         //queue not empty
-        if ( vid_index < vid_queue.length ){
-            player.loadVideoByUrl({ mediaContentUrl : vid_queue[vid_index]});
-            vid_index++;
+        if ( vid_queue.length > 0 ){
+            player.loadVideoByUrl({ mediaContentUrl : vid_queue[vid_queue.length-1]});
+            vid_queue.pop();
         //empty queue, play default video
         } else { 
             player.loadVideoById('qELSSAspRDI', 20, 'default');            
@@ -143,7 +142,7 @@ function onPlayerStateChange(event) {
     }
 
     // if (event.data === YT.PlayerState.PLAYING) {
-        
+
     // }
 }
 
