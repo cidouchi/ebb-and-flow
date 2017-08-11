@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel='stylesheet' href='/css/style.css' />
+    <link rel='stylesheet' href='/css/stars.css' />
+    <link rel='shortcut icon' type='image/ico' href='images/favicon.ico'/>
+    <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+  </head>
+  <body>
+
+    <div class='starry-night'>
+      <div class="stars"></div>
+      <div class="twinkling"></div>
+    </div>
+
+    <div class='header-container'>
+      <div class='users-online'>
+        <i class="fa fa-user-circle-o" aria-hidden="true"></i> 
+        <span id='text'>0 users online </span>
+      </div>
+      <i class="fa fa-bars fa-lg" aria-hidden="true"></i>
+      <i class="fa fa-film fa-lg" aria-hidden="true"></i>
+      <i class="fa fa-lightbulb-o fa-lg" aria-hidden="true"></i>
+      <h1> <img src='/images/logo.ico' alt='logo'/> ebb & flow </h1>
+    </div>
+
+    <!--youtube display -->
+    <div id='player'></div>
+  
+    <!--chat messages-->
+    <div class='messages-container'></div> 
+
+    <!--menu-->
+    <div class='menu-container animated'>
+    </div>
+
+    <div class='message-input'>
+      <form class='chat' action='javascript:void(0)' novalidate>
+          <label for='message'></label>
+          <input type='text' id='message' autocomplete='off' placeholder= 'Type a message... (50 characters max)' maxlength='50'required autofocus />
+      </form>
+      <i class="fa fa-commenting fa-lg" aria-hidden="true"></i>
+    </div>
+
+    <div class='youtube-input'>
+      <div id='toast'> Link Added! </div>
+      <i class="fa fa-youtube-play fa-lg" aria-hidden="true"></i>
+      <form class='link-input' action='javascript:void(0)' novalidate>
+          <label for='message'></label>
+          <input type='text' id='link' autocomplete='off' placeholder= 'Add a YouTube link to Queue' maxlength='50'required autofocus />
+      </form>
+    </div>
+
+
+    <script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+    <script src="http://www.youtube.com/player_api"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

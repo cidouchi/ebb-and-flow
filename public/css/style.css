@@ -1,0 +1,211 @@
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background-color: #f2f2f2;
+    transition: background-color 1s ease;
+}
+
+div.header-container {
+    display:block;
+    background-color: grey;
+    margin: 0;
+    padding-top: 5px;
+    padding-bottom: 2px;
+    text-align: center;
+    width: 100%;
+    box-shadow: 0px 1px 2px #9CACBC;
+    background: linear-gradient(#e6f2ff, #ffffff); 
+}
+
+
+h1 {
+    font-family: "Roboto",  sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 300;
+    line-height: 26.4px;
+}
+
+h1 img {
+    width: 25px;
+    height: 23px;
+}
+
+
+/*hide blue glow outline*/
+input:focus, textarea:focus {
+    outline: none;
+}
+
+
+/*input[type=text]{}*/
+
+input[id='message']{
+    height:30px;
+    font-size:12pt;
+    padding-right: 35px;
+    padding-left: 10px;
+    width: 400px;
+}
+
+input[id='link'] {
+    height:30px;
+    font-size:12pt;
+    padding-right: 10px;
+    padding-left: 37px;
+    width: 300px;
+}
+
+form.chat {
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+}
+
+form.link-input {
+    position: fixed;
+    bottom: 15px;
+    right: 17px;
+}
+
+#toast {
+    visibility: hidden; /* Hidden by default */
+    font-family: Arial;
+    font-size: 11px;
+    min-width: 80px; 
+    background-color: #333; 
+    color: #fff; 
+    text-align: center; 
+    border-radius: 2px; 
+    padding: 8px; 
+    position: fixed; 
+    z-index: 100; 
+    right: 145px; 
+    bottom: 60px; 
+}
+
+#toast.show {
+    visibility: visible;
+}
+
+div.menu-container {
+    display: none;
+    position: fixed;
+    background-color: blue;
+    border: 1px dotted black;
+    top: 15%;
+    height: 70%;
+    width: 25%;
+}
+
+div.messages-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    height: 70%;
+    /*background-color: yellow;
+    border: 1px dotted black;*/
+    background-size: contain;
+    z-index: 10;
+    color: black;
+}
+
+#chat-msg {
+    display: inline-block;
+    position: absolute;
+    width: auto;
+    height: auto;
+    word-wrap: break-word;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 200;
+}
+
+
+#player {
+    /*position: relative;
+    display: block;
+    /*margin: auto;
+    padding-top:15px;
+    padding-left: 15px;*/
+
+    /*pointer-events: none;*/ /* prevent user pausing */
+    
+    position: fixed;
+    top: 110px;
+    right: 20px;
+    z-index: 20;
+}
+
+div.users-online {
+    position: absolute;
+    text-align: left;
+    left: 5px;
+    top: 10px;
+}
+
+div.users-online #text{
+    position: relative;
+    left: 9px;
+    font-size: 14px;
+    font-family: "Lucida Sans Unicode",  sans-serif;
+}
+
+.fa-user-circle-o{
+    position: relative;
+    left: 6px;
+}
+
+.fa-bars {
+    position: absolute;
+    left: 10px;
+    top: 42px;
+}
+
+.fa-lightbulb-o {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    transition: color 0.2s ease;
+}
+
+/*.fa-lightbulb-o:hover {
+    color: #ffffb3;
+}*/
+
+.fa-film {
+    position: absolute;
+    right: 8px;
+    top: 41px;
+    transition: color 0.2s ease;
+}
+
+/*.fa-film:hover {
+    color: rgb(77,121,255)
+}*/
+
+.fa-youtube-play{
+    position: fixed;
+    bottom: 24px;
+    right: 336px;
+    z-index: 10;
+}
+
+.fa-commenting {
+    position: fixed;
+    bottom: 25px;
+    left: 433px;
+}
+
+
+
+
+

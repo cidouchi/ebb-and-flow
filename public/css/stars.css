@@ -1,0 +1,34 @@
+/* 
+ * Code Snippet from 'Night sky with twinkling stars' 
+ * by Andrew of script-tutorials.com 
+ * https://www.script-tutorials.com/night-sky-with-twinkling-stars/ 
+ */
+
+@keyframes move-twink-back {
+    from {background-position:0 0;}
+    to {background-position:-10000px 5000px;}
+}
+
+.stars, .twinkling {
+  
+  position:absolute;
+  width:100%;
+  height:100%;
+}
+
+.starry-night {
+  display: none;
+  z-index:-1000;
+}
+
+.stars {
+  background:#000 url(http://www.script-tutorials.com/demos/360/images/stars.png) repeat top center;
+  z-index:-3;
+}
+
+.twinkling{
+  background:transparent url(http://www.script-tutorials.com/demos/360/images/twinkling.png) repeat top center;
+  z-index:-2;
+
+  animation:move-twink-back 400s linear infinite;
+}
