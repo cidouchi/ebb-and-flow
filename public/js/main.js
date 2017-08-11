@@ -2,7 +2,6 @@ var socket = io('http://localhost:3000');
 
 socket.on('connect', function() {
     socket.emit('userEntered', ''); //notify server to add to user total
-    socket.emit('totalUsers', ''); //ask server for user count
    //??prompt popup required focused form asking for user tag
    //??add to online user count 
 });
@@ -16,6 +15,8 @@ socket.on('totalUsers', function(users) {
 socket.on('message', function(message) {
     printMessage(message);
 });
+
+
 
 //tab title
 document.title = 'ebb & flow'
@@ -43,6 +44,13 @@ $('.fa-bars').click(function() {
 $('.fa-film').click(function(){
     $('#player').toggleClass('animated fadeInDown');
     $('#player').toggleClass('animated fadeOutUp');
+    var half_width = $(window).width()/2;
+    half_width = half_width.toString() + 'px';
+    if ($('div.messages-container').css('width') == half_width) {
+        $('div.messages-container').css('width','100%');
+    } else {
+        $('div.messages-container').css('width','50%');
+    }
 });
 
 
@@ -102,8 +110,8 @@ function printMessage(message) {
 var player;
 function onYouTubePlayerAPIReady() {
     player = new YT.Player('player', {
-      width: '530',
-      height: '395',
+      width: '45%',
+      height: '60%',
       playerVars: {'start': 0, 'autoplay':0, 'controls':1, 'rel':0, 'showinfo':0, 'iv_load_policy':3},
       events: {
         onReady: onPlayerReady,
@@ -112,6 +120,8 @@ function onYouTubePlayerAPIReady() {
     });
 }
 
+
+
 function makeEmbedded(link) {
     var start_index = link.search('=') + 1;
     var vid_id = link.slice(start_index);
@@ -119,44 +129,31 @@ function makeEmbedded(link) {
     return res;
 }
 
+//default video
+var default_vid = 'https://www.youtube.com/embed/qELSSAspRDI';
+var curr_vid = default_vid;
 
 //called when video player ready
 function onPlayerReady(event) {
     //play static vid initially
-    player.loadVideoById('qELSSAspRDI', 20, 'default'); //default video
+    player.loadVideoByUrl({ mediaContentUrl : default_vid});
 }
 
-var vid_queue = []
 
 // when video ends
 function onPlayerStateChange(event) {        
     if (event.data === YT.PlayerState.ENDED) {     
-        //queue not empty
-        if ( vid_queue.length > 0 ){
-            player.loadVideoByUrl({ mediaContentUrl : vid_queue[vid_queue.length-1]});
-            vid_queue.pop();
-        //empty queue, play default video
-        } else { 
-            player.loadVideoById('qELSSAspRDI', 20, 'default');            
-        }
+        socket.emit('removeVideo', curr_vid);
     }
-
-    // if (event.data === YT.PlayerState.PLAYING) {
-
-    // }
 }
 
 document.forms[1].onsubmit = function () {
     //?? add a check to determine whether input link is valid!!!! : D
+
     var input = document.querySelector('#link');
-    var curr_url = makeEmbedded(input.value);
-    if (vid_queue.length == 0) {
-        vid_queue.push(curr_url);
-        var dur = player.getDuration();
-        player.seekTo(dur); //finish default video
-    } else {
-        vid_queue.push(curr_url);
-    }
+    var vid_url = makeEmbedded(input.value);
+    socket.emit('addVideo', vid_url);
+    
     //toast animation
     $('#toast').addClass('show animated bounceIn');
     $('#toast').fadeIn();
@@ -164,18 +161,26 @@ document.forms[1].onsubmit = function () {
         $('#toast').fadeOut(1000);
         $('#toast').removeClass('animated bounceIn');
     } , 1000);
+
     //reset
     input.value = '';
 }
 
+socket.on('playVideo', function(vid_url) {
+    curr_vid = vid_url;
+    player.loadVideoByUrl({ mediaContentUrl : curr_vid});
+});
+
+socket.on('seekVideo', function(time) {
+    player.seekTo(time);
+});
 
 
-//polling every 2s
-window.setInterval(function() {
-    socket.emit('',)
-}, 2000);
-
-socket.on()
+/* poll every second */
+window.setInterval( function() {
+    var curr_time = player.getCurrentTime();
+    socket.emit('currStatus', {vid: curr_vid, time: curr_time});
+}, 500);
 
 
 
