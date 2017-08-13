@@ -10,6 +10,7 @@
   </head>
   <body>
 
+
     <div class='starry-night'>
       <div class="stars"></div>
       <div class="twinkling"></div>
@@ -23,8 +24,8 @@
       <i class="fa fa-bars fa-lg" aria-hidden="true"></i>
       <i class="fa fa-film fa-lg" aria-hidden="true"></i>
       <i class="fa fa-lightbulb-o fa-lg" aria-hidden="true"></i>
-      <h1> <img src='/images/logo.ico' alt='logo'/> ebb & flow </h1>
-    </div>
+      <h1> <img src='/images/logo.ico' alt='logo'/> ebb & flow </h1>     
+    </div><!--header-container-->
 
     <!--youtube display -->
     <div id='player'></div>
@@ -32,9 +33,15 @@
     <!--chat messages-->
     <div class='messages-container'></div> 
 
-    <!--menu-->
-    <div class='menu-container animated'>
+    <!--playlist menu-->
+    <div class='menu-container'>
+      <i class="fa fa-bars fa-lg" aria-hidden="true"></i>
+      <h2> Playlist </h2>
+      <ol></ol>
     </div>
+
+    <!--blur for rest of screen when playlist menu open-->
+    <div class='cover'></div>
 
     <div class='message-input'>
       <form class='chat' action='javascript:void(0)' novalidate>
@@ -49,7 +56,7 @@
       <i class="fa fa-youtube-play fa-lg" aria-hidden="true"></i>
       <form class='link-input' action='javascript:void(0)' novalidate>
           <label for='message'></label>
-          <input type='text' id='link' autocomplete='off' placeholder= 'Add a YouTube link to Queue' maxlength='50'required autofocus />
+          <input type='text' id='link' autocomplete='off' placeholder= 'Add a YouTube link to Playlist' maxlength='50'required autofocus />
       </form>
     </div>
 
