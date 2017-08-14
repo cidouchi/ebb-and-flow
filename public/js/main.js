@@ -2,19 +2,24 @@ var socket = io('http://localhost:3000');
 
 socket.on('connect', function() {
     socket.emit('userEntered', ''); //notify server to add to user total
-   //??prompt popup required focused form asking for user tag
-   //??add to online user count 
+   $('div.login-screen').fadeIn();
+   $('div.cover').fadeIn();
+   $('#player').addClass('animated fadeInDown');
 });
+
 
 //update users online
 socket.on('totalUsers', function(users) {
     $('div.users-online #text').text(users + ' users online');
 });
 
+
 //display other users' chat messages
-socket.on('message', function(message) {
-    printMessage(message);
+socket.on('message', function(data) {
+    var message = '<span id="tag">[' + data.tag + ']' + '</span><br/>' + data.message;
+    printMessage(message, data.top, data.left);
 });
+
 
 socket.on('updatePlaylist', function(playlistInfo) {
     /* delete old list items */
@@ -34,7 +39,6 @@ socket.on('updatePlaylist', function(playlistInfo) {
                 '<span id="text">' + vidInfo.title + '</span>' + 
                 '<i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>' ;
 
-
         document.querySelector('div.menu-container ol').appendChild(playlistElem);
         index++;
     });
@@ -44,22 +48,12 @@ socket.on('updatePlaylist', function(playlistInfo) {
     });
 });
 
-// socket.on('removeFromPlaylist', function() {
-//     var parent = document.querySelector('div.menu-container ul');
-//     var child = document.querySelector('div.menu-container ul li');
-//     parent.removeChild(child);
-// });
-
-
 //tab title
 document.title = 'ebb & flow'
 
 //import chat message sound
 var msg_snd = new Audio('/chat.mp3');
-
-
-$('#player').addClass('animated fadeInDown');
-
+var messageSoundOn = false;
 
 
 $('.fa-bars').click(function() {
@@ -80,8 +74,6 @@ $('.fa-bars').click(function() {
 });
 
 
-
-
 $('.fa-film').click(function(){
     $('#player').toggleClass('animated fadeInDown');
     $('#player').toggleClass('animated fadeOutUp');
@@ -98,13 +90,15 @@ $('.fa-film').click(function(){
 $('.fa-lightbulb-o').click(function () {
     if ($('div.messages-container').css('color') !== 'rgb(255, 255, 255)'){
         $('div.messages-container').css('color', 'white');
-        $('.fa:not(.fa-commenting, .fa-youtube-play, .menu-container .fa-bars, .fa-times-circle), div.users-online').attr('style', 'color:white');
+        $('.fa:not(.fa-commenting, .fa-youtube-play, .menu-container .fa-bars, .fa-times-circle), div.users-online')
+            .attr('style', 'color:white');
         $('.starry-night').addClass('animated fadeIn');
         $('.starry-night').fadeIn();
         $('input').attr('style', 'background-color: black; color:white; border: 1px solid grey; opacity: 0.5;');
     } else {
         $('div.messages-container').css('color', 'rgb(0, 0, 0)');
-        $('.fa:not(.fa-commenting, .fa-youtube-play, .menu-container .fa-bars, .fa-times-circle), div.users-online').attr('style', 'color: #4d4d4d');
+        $('.fa:not(.fa-commenting, .fa-youtube-play, .menu-container .fa-bars, .fa-times-circle), div.users-online')
+            .attr('style', 'color: #4d4d4d');
         $('.starry-night').removeClass('animated fadeIn');
         $('.starry-night').fadeOut();
         $('input').attr('style', '');
@@ -113,37 +107,35 @@ $('.fa-lightbulb-o').click(function () {
 });
 
 
-document.forms[0].onsubmit = function () {
+document.forms['chat'].onsubmit = function () {
     var input = document.querySelector('#message');
-    printMessage(input.value);
+    // printMessage(input.value);
     socket.emit('chat', input.value);
     input.value = '';
 }
 
 function deleteMessage(message) {
     $(message).addClass('fadeOutDown');
+    window.setTimeout(function() {$(message).remove()}, 2000); 
 }
 
 /* display message */
-function printMessage(message) {
+function printMessage(message, top, left) {
     var insert = document.createElement('p');
-    insert.innerText = message;
+    insert.innerHTML= message.trim();
     insert.setAttribute('id', 'chat-msg')
-    
-    // randomize position
-    var top = Math.random() * 90;
-    var left = Math.random() * 90;
     insert.style.top = top + '%';
     insert.style.left = left + '%';
     document.querySelector('div.messages-container').appendChild(insert);
     $(insert).addClass('animated fadeInUp');
-    if (message !== '') msg_snd.play();
+   
+    //message sound
+    if (messageSoundOn && message.trim() !== '') msg_snd.play();
 
     //delete message
-    window.setTimeout(function() {deleteMessage(insert)}, 6000);
+    window.setTimeout(function() {deleteMessage(insert)}, 5000); 
 }
 
-// "https://www.youtube.com/embed/XGSy3_Czz8k?start=140&rel=0&showinfo=0&iv_load_policy=3&controls=0&autoplay=1"
 
 // create youtube player
 var player;
@@ -183,6 +175,7 @@ var curr_vid = default_vid;
 //called when video player ready
 function onPlayerReady(event) {
     //play static vid initially
+    player.mute();
     player.loadVideoByUrl({ mediaContentUrl : default_vid});
 }
 
@@ -194,7 +187,7 @@ function onPlayerStateChange(event) {
     }
 }
 
-document.forms[1].onsubmit = function () {
+document.forms['link-input'].onsubmit = function () {
     var input = document.querySelector('#link');
 
     if (isLinkValid(input.value)) {
@@ -214,10 +207,22 @@ document.forms[1].onsubmit = function () {
     }
 }
 
+//new user id login
+document.forms['userInput'].onsubmit = function () {
+    var input = document.querySelector('#userId');
+    socket.emit('setTag', input.value);
+    $('div.login-screen').fadeOut();
+    $('div.cover').fadeOut();
+    player.unMute();
+    messageSoundOn = true;
+}
+
+
 socket.on('playVideo', function(vid_url) {
     curr_vid = vid_url;
     player.loadVideoByUrl({ mediaContentUrl : curr_vid});
 });
+
 
 socket.on('seekVideo', function(time) {
     player.seekTo(time);

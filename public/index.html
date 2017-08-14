@@ -5,15 +5,30 @@
     <link rel='stylesheet' href='/css/stars.css' />
     <link rel='shortcut icon' type='image/ico' href='images/favicon.ico'/>
     <link rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+  href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
   </head>
   <body>
 
-
+    <!--lightbulb button display-->
     <div class='starry-night'>
       <div class="stars"></div>
       <div class="twinkling"></div>
+    </div>
+
+    <!--blur for rest of screen when playlist menu open-->
+    <div class='cover'></div>
+
+    <div class='login-screen'>
+      <h3> welcome to </h3>
+      <h1> <img src='/images/logo.ico' alt='logo'/> ebb & flow </h1>
+      <h4 class='description'> Chat with short-lived messages. <br></br> Stream and queue YouTube videos. </h4>
+      <h4 class ='login'> Enter User Tag to Start: </h4>
+      <form class='userId' id='userInput' action='javascript:void(0)' novalidate>
+          <label for='userId'></label>
+          <span id='user'><input type='text' id='userId' autocomplete='off' 
+              placeholder= 'e.g. hotdog123 (max 25 characters)' maxlength='25'required autofocus /></span>
+      </form>
     </div>
 
     <div class='header-container'>
@@ -29,9 +44,29 @@
 
     <!--youtube display -->
     <div id='player'></div>
+
+    <div class='youtube-input'>
+      <div id='toast'> Link Added! </div>
+      
+      <form class='link-input' id='link-input' action='javascript:void(0)' novalidate>
+          <label for='message'></label>
+          <input type='text' id='link' autocomplete='off' 
+                  placeholder= 'Add a YouTube link to Playlist' maxlength='50'required/>
+          <i class="fa fa-youtube-play fa-lg" aria-hidden="true"></i>
+      </form>
+    </div>
   
     <!--chat messages-->
     <div class='messages-container'></div> 
+
+    <div class='message-input'>
+      <form class='chat' id='chat' action='javascript:void(0)' novalidate>
+          <label for='message'></label>
+          <input type='text' id='message' autocomplete='off' 
+                  placeholder= 'Type a message... (50 characters max)' maxlength='50'required/>
+      </form>
+      <i class="fa fa-commenting fa-lg" aria-hidden="true"></i>
+    </div>
 
     <!--playlist menu-->
     <div class='menu-container'>
@@ -40,28 +75,9 @@
       <ol></ol>
     </div>
 
-    <!--blur for rest of screen when playlist menu open-->
-    <div class='cover'></div>
-
-    <div class='message-input'>
-      <form class='chat' action='javascript:void(0)' novalidate>
-          <label for='message'></label>
-          <input type='text' id='message' autocomplete='off' placeholder= 'Type a message... (50 characters max)' maxlength='50'required autofocus />
-      </form>
-      <i class="fa fa-commenting fa-lg" aria-hidden="true"></i>
-    </div>
-
-    <div class='youtube-input'>
-      <div id='toast'> Link Added! </div>
-      <i class="fa fa-youtube-play fa-lg" aria-hidden="true"></i>
-      <form class='link-input' action='javascript:void(0)' novalidate>
-          <label for='message'></label>
-          <input type='text' id='link' autocomplete='off' placeholder= 'Add a YouTube link to Playlist' maxlength='50'required autofocus />
-      </form>
-    </div>
-
-
-    <script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+      
+    <script src="http://code.jquery.com/jquery-3.2.1.min.js" 
+          integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
     <script src="http://www.youtube.com/player_api"></script>
     <script src="js/main.js"></script>

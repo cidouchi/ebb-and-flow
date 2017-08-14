@@ -20,13 +20,25 @@ var curr_time = 0;
 
 io.on('connection', function(socket) {
     
+    var userTag = '';
+
     /***********************************/
     /* initial set-up for each client  */
     /***********************************/
 
+    /* set user tag */
+    socket.on('setTag', function(tag) {
+        userTag = tag;
+    });
+
+
     /* broadcast chat messages */
     socket.on('chat', function(message) {
-        socket.broadcast.emit('message', message);
+        //create message position
+        var top = Math.random() * 80;
+        var left = Math.random() * 80;
+        socket.emit('message', {tag: userTag, message: message, top: top, left: left});
+        socket.broadcast.emit('message', {tag: userTag, message: message, top: top, left: left});
     });
 
     /* update online user count */

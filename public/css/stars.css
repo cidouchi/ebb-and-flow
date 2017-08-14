@@ -23,12 +23,12 @@
 
 .stars {
   background:#000 url(http://www.script-tutorials.com/demos/360/images/stars.png) repeat top center;
-  z-index:-3;
+  z-index:0;
 }
 
 .twinkling{
   background:transparent url(http://www.script-tutorials.com/demos/360/images/twinkling.png) repeat top center;
-  z-index:-2;
+  z-index:0;
 
   animation:move-twink-back 400s linear infinite;
 }

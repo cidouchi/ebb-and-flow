@@ -5,7 +5,6 @@ html, body {
 }
 
 body {
-    overflow-y: hidden;
     background-color: #f2f2f2;
     transition: background-color 1s ease;
 }
@@ -21,6 +20,97 @@ div.cover {
     opacity: 0.6;  
 }
 
+div.login-screen {
+    display: none;
+    position: absolute;
+    top: 2%;
+    left: 25%;
+    background-color: #cce6ff;
+    height: 50%;
+    width: 50%;
+    z-index: 101;
+    border-radius: 20px;
+    box-shadow: 0.5px 2px 2px #b3b3b3;
+    min-height: 200px;
+}
+
+div.login-screen h3 {
+    text-align: center;
+    color: #404040;
+    font-family: Arial,  sans-serif;
+    padding-top: 5%;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    font-weight: 300;
+    font-size: 2.5vh;
+}
+
+div.login-screen h1 {
+    /*background-color: red;*/
+    margin-top: 0;
+    padding-top: 0;
+    text-align: center;
+    /*color: #404040;*/
+    font-family: "Roboto",  sans-serif;
+    font-size: 6vh;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 300;
+    line-height: 30.4px;
+}
+
+div.login-screen h1 img {
+    width: 4vw;
+    height: 6vh;
+}
+
+div.login-screen h4.description {
+    /*background-color: blue;*/
+    line-height: 2vh;
+    text-align: center;
+    color: #003366;
+    font-family: Georgia,  sans-serif;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+    margin-bottom: 0;
+    font-weight: lighter;
+    font-size: 2.0vh;
+}
+
+div.login-screen h4.login {
+    color: #0059b3;
+    line-height: 2vh;
+    text-align: center;
+    font-family: Arial,  sans-serif;
+    padding-top: 2vh;
+    padding-bottom: 1vh;
+    margin-bottom: 0;
+    font-weight: 300;
+    font-size: 2vh;
+}
+
+input[id='userId'] {
+    display: block;
+    height: 3.7vh;
+    font-size: 2.5vh;
+    padding-right: 10px;
+    padding-left: 10px;
+    width: 50%;
+    text-align: center;
+    border: 1px solid #d9d9d9;
+    margin: auto;
+    border-radius: 5px;
+}
+
+/*div.login-screen form span {
+    background-color:yellow;
+    width: 100%;
+    text-align: center;
+}*/
+
+
+
+
 
 div.header-container {
     /*display:block;*/
@@ -35,7 +125,7 @@ div.header-container {
 }
 
 
-h1 {
+div.header-container h1 {
     color: #404040;
     font-family: "Roboto",  sans-serif;
     font-size: 20px;
@@ -45,7 +135,7 @@ h1 {
     line-height: 26.4px;
 }
 
-h1 img {
+div.header-container h1 img {
     width: 25px;
     height: 23px;
 }
@@ -123,7 +213,7 @@ div.menu-container {
 div.menu-container h2 {
     font-family: 'Roboto', sans-serif;
     font-weight: 100;
-    font-size: 20px;
+    font-size: 3vh;
     position: absolute;
     text-align: center;
     width: 100%;
@@ -165,7 +255,7 @@ div.menu-container ol li img {
 
 div.menu-container ol li #text {
     position: absolute;
-    font-size: 80%;
+    font-size: 2vh;
     width: 70%;
     height: 100%;
     left: 20%;
@@ -180,8 +270,6 @@ div.menu-container ol li .fa-times-circle {
 }
 
 div.messages-container {
-    word-wrap: break-word;
-    overflow: hidden;
     display: block;
     position: relative;
     width: 50%;
@@ -192,19 +280,24 @@ div.messages-container {
 }
 
 #chat-msg {
-    display: inline-block;
-    position: absolute;
-    width: auto;
-    height: auto;
+    /*background-color: red;*/
     word-wrap: break-word;
+    position: absolute;
+    /*padding: 0;
+    margin: 0;*/
+    width: 13vw;
     overflow: hidden;
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: 100%;
+    font-size: 2vh;
     font-style: normal;
     font-variant: normal;
     font-weight: 200;
 }
 
+#chat-msg #tag{
+    color: #66a3ff;
+    font-size: 1.6vh;
+}
 
 #player {
     /*pointer-events: none;*/ /* prevent user pausing */
@@ -260,7 +353,7 @@ div.users-online #text{
     position: fixed;
     bottom: 23px;
     right: 336px;
-    z-index: 10;
+    z-index: 1;
 }
 
 .fa-commenting {
