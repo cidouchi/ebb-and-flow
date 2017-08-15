@@ -46,11 +46,9 @@ div.login-screen h3 {
 }
 
 div.login-screen h1 {
-    /*background-color: red;*/
     margin-top: 0;
     padding-top: 0;
     text-align: center;
-    /*color: #404040;*/
     font-family: "Roboto",  sans-serif;
     font-size: 6vh;
     font-style: normal;
@@ -69,7 +67,7 @@ div.login-screen h4.description {
     line-height: 2vh;
     text-align: center;
     color: #003366;
-    font-family: Georgia,  sans-serif;
+    font-family: Helvetica,  sans-serif;
     padding-top: 2vh;
     padding-bottom: 2vh;
     margin-bottom: 0;
@@ -102,18 +100,7 @@ input[id='userId'] {
     border-radius: 5px;
 }
 
-/*div.login-screen form span {
-    background-color:yellow;
-    width: 100%;
-    text-align: center;
-}*/
-
-
-
-
-
 div.header-container {
-    /*display:block;*/
     background-color: grey;
     margin: 0;
     padding-top: 5px;
@@ -174,6 +161,7 @@ form.link-input {
     position: fixed;
     bottom: 15px;
     right: 17px;
+    z-index:100;
 }
 
 #toast {
@@ -280,11 +268,8 @@ div.messages-container {
 }
 
 #chat-msg {
-    /*background-color: red;*/
     word-wrap: break-word;
     position: absolute;
-    /*padding: 0;
-    margin: 0;*/
     width: 13vw;
     overflow: hidden;
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
@@ -300,7 +285,7 @@ div.messages-container {
 }
 
 #player {
-    /*pointer-events: none;*/ /* prevent user pausing */
+    pointer-events: none; /* prevent user pausing */
     position: fixed;
     top: 110px;
     right: 20px;
@@ -337,7 +322,6 @@ div.users-online #text{
     position: absolute;
     right: 10px;
     top: 12px;
-    transition: color 0.2s ease;
 }
 
 .fa-film {
@@ -345,7 +329,20 @@ div.users-online #text{
     position: absolute;
     right: 8px;
     top: 41px;
-    transition: color 0.2s ease;
+}
+
+.fa-volume-up {
+    color: #4d4d4d;
+    position: absolute;
+    right: 38px;
+    top: 42px;
+}
+
+.fa-volume-off {
+    color: #4d4d4d;
+    position: absolute;
+    right: 48.6px;
+    top: 42px;
 }
 
 .fa-youtube-play{
@@ -362,8 +359,4 @@ div.users-online #text{
     bottom: 25px;
     left: 433px;
 }
-
-
-
-
 
