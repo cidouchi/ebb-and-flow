@@ -1,4 +1,7 @@
 var socket = io('http://localhost:3000');
+//default video
+var default_vid = 'https://www.youtube.com/embed/qELSSAspRDI';
+var curr_vid = default_vid;
 
 socket.on('connect', function() {
     socket.emit('userEntered', ''); //notify server to add to user total
@@ -7,12 +10,10 @@ socket.on('connect', function() {
    $('#player').addClass('animated fadeInDown');
 });
 
-
 //update users online
 socket.on('totalUsers', function(users) {
     $('div.users-online #text').text(users + ' users online');
 });
-
 
 //display other users' chat messages
 socket.on('message', function(data) {
@@ -20,7 +21,7 @@ socket.on('message', function(data) {
     printMessage(message, data.top, data.left);
 });
 
-
+//display updated playlist
 socket.on('updatePlaylist', function(playlistInfo) {
     /* delete old list items */
     var parent = document.querySelector('div.menu-container');
@@ -55,7 +56,7 @@ document.title = 'ebb & flow'
 var msg_snd = new Audio('/chat.mp3');
 var messageSoundOn = false;
 
-
+/* playlist display button */
 $('.fa-bars').click(function() {
     $('div.menu-container').show();
 
@@ -73,8 +74,8 @@ $('.fa-bars').click(function() {
     }
 });
 
-
-$('.fa-film').click(function(){
+/* update display when film button clicked */
+$('.fa-film').click(function (){
     $('#player').toggleClass('animated fadeInDown');
     $('#player').toggleClass('animated fadeOutUp');
     var half_width = $(window).width()/2;
@@ -86,7 +87,7 @@ $('.fa-film').click(function(){
     }
 });
 
-
+/* update display when lighbulb clicked */
 $('.fa-lightbulb-o').click(function () {
     if ($('div.messages-container').css('color') !== 'rgb(255, 255, 255)'){
         $('div.messages-container').css('color', 'white');
@@ -106,17 +107,34 @@ $('.fa-lightbulb-o').click(function () {
     
 });
 
+/* volume control */
+$('.fa-volume-off').hide();
+$('.fa-volume-up').click( function () {
+    $('.fa-volume-up').hide();
+    $('.fa-volume-off').show();
+    player.mute();
+    messageSoundOn = false;
+});
 
+ $('.fa-volume-off').click( function () {
+    $('.fa-volume-off').hide();
+    $('.fa-volume-up').show();
+    player.unMute();
+    messageSoundOn = true;
+ });
+
+/* chat message input */
 document.forms['chat'].onsubmit = function () {
     var input = document.querySelector('#message');
-    // printMessage(input.value);
-    socket.emit('chat', input.value);
-    input.value = '';
+    if (input.value.trim() !== '') {
+        socket.emit('chat', input.value);
+        input.value = '';
+    }
 }
 
 function deleteMessage(message) {
     $(message).addClass('fadeOutDown');
-    window.setTimeout(function() {$(message).remove()}, 2000); 
+    window.setTimeout(function() {$(message).remove()}, 500); 
 }
 
 /* display message */
@@ -133,17 +151,16 @@ function printMessage(message, top, left) {
     if (messageSoundOn && message.trim() !== '') msg_snd.play();
 
     //delete message
-    window.setTimeout(function() {deleteMessage(insert)}, 5000); 
+    window.setTimeout(function() {deleteMessage(insert)}, 4000); 
 }
 
-
-// create youtube player
+/* create youtube player */
 var player;
 function onYouTubePlayerAPIReady() {
     player = new YT.Player('player', {
       width: '45%',
       height: '70%',
-      playerVars: {'start': 0, 'autoplay':0, 'controls':1, 'rel':0, 'showinfo':0, 'iv_load_policy':3},
+      playerVars: {'start': 0, 'autoplay':0, 'controls':0, 'rel':0, 'showinfo':0, 'iv_load_policy':3},
       events: {
         onReady: onPlayerReady,
         onStateChange: onPlayerStateChange
@@ -151,8 +168,7 @@ function onYouTubePlayerAPIReady() {
     });
 }
 
-
-/* return true if YouTube link is valid, false otherwise */
+// returns true if YouTube link is valid, false otherwise 
 function isLinkValid(link) {
     var mustInclude = 'youtube.com/watch?v=';
     var notInclude = '&';
@@ -167,11 +183,6 @@ function makeEmbedded(link) {
     return res;
 }
 
-
-//default video
-var default_vid = 'https://www.youtube.com/embed/qELSSAspRDI';
-var curr_vid = default_vid;
-
 //called when video player ready
 function onPlayerReady(event) {
     //play static vid initially
@@ -179,14 +190,14 @@ function onPlayerReady(event) {
     player.loadVideoByUrl({ mediaContentUrl : default_vid});
 }
 
-
 // when video ends
 function onPlayerStateChange(event) {        
     if (event.data === YT.PlayerState.ENDED) {     
-        socket.emit('removeVideo', curr_vid);
+        socket.emit('finishVideo', curr_vid);
     }
 }
 
+/* youtube link input */
 document.forms['link-input'].onsubmit = function () {
     var input = document.querySelector('#link');
 
@@ -207,33 +218,35 @@ document.forms['link-input'].onsubmit = function () {
     }
 }
 
-//new user id login
+/* new user tag input */
 document.forms['userInput'].onsubmit = function () {
     var input = document.querySelector('#userId');
-    socket.emit('setTag', input.value);
-    $('div.login-screen').fadeOut();
-    $('div.cover').fadeOut();
-    player.unMute();
-    messageSoundOn = true;
+    if (input.value.trim() !== '') {
+        socket.emit('setTag', input.value.trim());
+        $('div.login-screen').fadeOut();
+        $('div.cover').fadeOut();
+        player.unMute();
+        messageSoundOn = true;
+    }
+    input.value='';
 }
 
-
+//load video
 socket.on('playVideo', function(vid_url) {
     curr_vid = vid_url;
     player.loadVideoByUrl({ mediaContentUrl : curr_vid});
 });
 
-
+//skip time in video
 socket.on('seekVideo', function(time) {
     player.seekTo(time);
 });
 
-
-/* poll every second */
+/* polling to sync video streaming */
 window.setInterval( function() {
     var curr_time = player.getCurrentTime();
     socket.emit('currStatus', {vid: curr_vid, time: curr_time});
-}, 500);
+}, 1000);
 
 
 
