@@ -19,5 +19,6 @@ __Try It Out__
 
 __Todo__
 ---
+* allow users to move around items in playlist (if currently playing, store time)
 * create separate chatrooms for different interests
 * recommend trending music/videos
