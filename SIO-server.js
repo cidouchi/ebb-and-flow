@@ -17,6 +17,9 @@ var default_vid = 'https://www.youtube.com/embed/qELSSAspRDI';
 var curr_video = default_vid;
 var curr_time = 0;
 
+var lastTop = 0;
+var lastLeft = 0;
+var commOffset = 0.4;
 
 io.on('connection', function(socket) {
     
@@ -37,6 +40,16 @@ io.on('connection', function(socket) {
         //create message position
         var top = Math.random() * 80;
         var left = Math.random() * 80;
+
+        while (Math.abs(lastTop - top) < 10) {
+            top = Math.random() * 80;
+        }
+        while (Math.abs(lastLeft - left) < 10) {
+            left = Math.random() * 80;
+        }
+        lastTop = top;
+        lastLeft = left;
+
         socket.emit('message', {tag: userTag, message: message, top: top, left: left});
         socket.broadcast.emit('message', {tag: userTag, message: message, top: top, left: left});
     });
@@ -86,7 +99,7 @@ io.on('connection', function(socket) {
     });
 
     /* remove current video from queue when client finishes */
-    socket.on('removeVideo', function(vid_url) {
+    socket.on('finishVideo', function(vid_url) {
         //check that video request to remove is actually at end of queue
         if (vidQueue[vidQueue.length-1] == vid_url) {
             vidQueue.pop();
@@ -115,10 +128,10 @@ io.on('connection', function(socket) {
             socket.emit('seekVideo', curr_time);
         }
         else {
-            if (status.time > curr_time) {
+            if (status.time-commOffset > curr_time) {
                 curr_time = status.time;
-            } else if (status.time < curr_time) {
-                socket.emit('seekVideo', curr_time+0.523); //offset communication lag
+            } else if (status.time+commOffset < curr_time) {
+                socket.emit('seekVideo', curr_time+commOffset); 
             }
         }
     });
@@ -134,7 +147,7 @@ io.on('connection', function(socket) {
         //video to delete is playing now
         if (index == 0) {
             if (vidQueue.length == 0) curr_video = default_vid;
-            else curr_video = vidQueue[0]; 
+            else curr_video = vidQueue[vidQueue.length-1]; 
 
             //reset time
             curr_time = 0;
