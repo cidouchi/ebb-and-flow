@@ -3,7 +3,7 @@
 A chatroom that allows users to queue and stream YouTube videos together. <br/>
 Made with Node.js, Express.js, Socket.io.
 
-*click here to watch demo*: <br/>
+**click here to watch demo**: <br/>
 [![image demo video](https://thumbs.gfycat.com/GlaringRawAphid-size_restricted.gif)](https://www.youtube.com/watch?v=SHUx-poh2LI)
 
 __Features__
